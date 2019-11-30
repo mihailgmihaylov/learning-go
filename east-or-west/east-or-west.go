@@ -67,7 +67,7 @@ func printWestQuote() {
 	fmt.Println("\"" + westQuotes.Quote + "\"")
 }
 
-func questionPoints(correct string) int {
+func questionGetPoints(correct string) bool {
 	var reply string
 	fmt.Print("Kanye West or east quote?!? (west) for Kanye West; (east) for Eastern Quotes:")
 	for {
@@ -80,9 +80,9 @@ func questionPoints(correct string) int {
 	}
 
 	if reply == correct {
-		return 1
+		return true
 	} else {
-		return 0
+		return false
 	}
 }
 
@@ -115,10 +115,16 @@ func main() {
 		fmt.Println("Question #" + strconv.Itoa(i))
 		if randomNum(2) == 0 {
 			printEastQuoteOnRandom()
-			score = score + questionPoints("east")
+			if questionGetPoints("east") {
+				fmt.Println("...True! Quote by:")
+				score++
+			}
 		} else {
 			printWestQuote()
-			score = score + questionPoints("west")
+			if questionGetPoints("west") {
+				fmt.Println("...True! The quote is by the TRUE genius mastermind of the generation...")
+				score++
+			}
 		}
 	}
 	fmt.Println("Your score is...")
