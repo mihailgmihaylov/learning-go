@@ -29,7 +29,7 @@ func randomNum(length int) int {
 	return rand.Intn(length)
 }
 
-func printEastQuoteOnRandom() {
+func getEastQuoteOnRandom() (string, string) {
 	type Quote struct {
 		Author string `json:"author"`
 		Book   string `json:"book"`
@@ -47,7 +47,7 @@ func printEastQuoteOnRandom() {
 	if err != nil {
 		fmt.Print(err)
 	}
-	fmt.Println("\"" + eastQuotes.Quotes[randomNum(len(eastQuotes.Quotes))].Quote + "\"")
+	return eastQuotes.Quotes[randomNum(len(eastQuotes.Quotes))].Quote, eastQuotes.Quotes[randomNum(len(eastQuotes.Quotes))].Author
 }
 
 func printWestQuote() {
@@ -114,16 +114,21 @@ func main() {
 	for i := 1; i <= 10; i++ {
 		fmt.Println("Question #" + strconv.Itoa(i))
 		if randomNum(2) == 0 {
-			printEastQuoteOnRandom()
+			var eastQuote, eastQuoteAuthor = getEastQuoteOnRandom()
+			fmt.Println("\"" + eastQuote + "\"")
 			if questionGetPoints("east") {
-				fmt.Println("...True! Quote by:")
+				fmt.Println("...True! Quote by: " + eastQuoteAuthor)
 				score++
+			} else {
+				fmt.Println("...False! Quote by: " + eastQuoteAuthor)
 			}
 		} else {
 			printWestQuote()
 			if questionGetPoints("west") {
 				fmt.Println("...True! The quote is by the TRUE genius mastermind of the generation...")
 				score++
+			} else {
+				fmt.Println("...False! You could not recognise the true GENIUS!")
 			}
 		}
 	}
